@@ -13,9 +13,9 @@ class physical_nn(object):
         if model_restore_path is None:
             self.model = tf.keras.models.Sequential([
                 tf.keras.layers.Flatten(input_shape=(5,)),
-                tf.keras.layers.Dense(50, activation='tanh'),
-                tf.keras.layers.Dense(50, activation='tanh'),
-                tf.keras.layers.Dense(40, activation='tanh'),
+                tf.keras.layers.Dense(50, activation='relu'),
+                tf.keras.layers.Dense(50, activation='sigmoid'),
+                tf.keras.layers.Dense(40, activation='selu'),
                 tf.keras.layers.Dense(4, activation='tanh')
             ])
         else:
