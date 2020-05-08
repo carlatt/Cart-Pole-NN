@@ -2,7 +2,6 @@ import os
 
 import tensorflow as tf
 
-
 class cart_pole_nn(object):
     def __init__(self, model_struct, input_size, output_size, learning_rate=0.01):
         '''
@@ -16,8 +15,11 @@ class cart_pole_nn(object):
         self.input_size = input_size
         self.output_size = output_size
         self.optimizer = tf.optimizers.Adam(learning_rate=learning_rate)
-        self.loss_function = None
+        self.loss_function = self.loss
         self.train_op = None
+
+    def loss(self):
+        pass
 
     def set_loss_function(self, loss_func):
         self.loss_function = loss_func
@@ -56,8 +58,6 @@ class cart_pole_nn(object):
         checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 
 
-def loss():
-    return 1
 
 if __name__ == "__main__":
     model_struct = [{'node': 50, 'activation': tf.nn.relu},
@@ -69,5 +69,5 @@ if __name__ == "__main__":
     v = tf.Variable(1., shape=tf.TensorShape(None))
     v.assign([[1.,2.,3.,6.]])
     neural.construct_model(v)
-    neural.set_loss_function(tf.losses.mean_squared_error())
+    neural.set_loss_function(loss)
     neural.train(100,v)

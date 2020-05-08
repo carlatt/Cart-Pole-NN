@@ -7,5 +7,7 @@ def load_data():
     x_test = inp[int(3*len(inp)/4):]
     y_test = outp[int(3*len(inp)/4):]
     return  (x_train, y_train), (x_test, y_test)
-lines = loadtxt("datasetModelInput.txt", comments="#", delimiter=" ", unpack=False)
-print(lines[0])
+
+if __name__ == "__main__":
+    lines = loadtxt("datasetModelInput.txt", comments="#", delimiter=" ", unpack=False)
+    print(lines[0])
