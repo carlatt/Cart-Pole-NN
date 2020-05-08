@@ -1,5 +1,6 @@
+import os
+
 import tensorflow as tf
-from tensorflow.keras import layers
 
 
 class cart_pole_nn(object):
@@ -15,11 +16,11 @@ class cart_pole_nn(object):
         self.input_size = input_size
         self.output_size = output_size
         self.optimizer = tf.optimizers.Adam(learning_rate=learning_rate)
-        self.loss = None
+        self.loss_function = None
         self.train_op = None
 
-    def set_loss(self, loss):
-        self.loss = loss
+    def set_loss_function(self, loss_func):
+        self.loss_function = loss_func
 
     def construct_model(self, x_train):
         prev_size = self.input_size
@@ -45,9 +46,18 @@ class cart_pole_nn(object):
 
         self.layers = layers
 
-    def train(self, x_train, epochs, batch_size, x_test):
-        pass
+    def train(self, epochs, inp):
+        self.optimizer.minimize(self.loss_function,self.layers)
 
+    def predict(self):
+        checkpoint_dir = './training_checkpoints'
+        checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
+        checkpoint = tf.train.Checkpoint(model_struct=self.model_structure)
+        checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
+
+
+def loss():
+    return 1
 
 if __name__ == "__main__":
     model_struct = [{'node': 50, 'activation': tf.nn.relu},
@@ -59,3 +69,5 @@ if __name__ == "__main__":
     v = tf.Variable(1., shape=tf.TensorShape(None))
     v.assign([[1.,2.,3.,6.]])
     neural.construct_model(v)
+    neural.set_loss_function(tf.losses.mean_squared_error())
+    neural.train(100,v)

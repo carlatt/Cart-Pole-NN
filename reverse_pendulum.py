@@ -1,9 +1,4 @@
-import time
-
 import gym
-import numpy as np
-import string
-import random
 
 #from deap import base, creator, tools
 
