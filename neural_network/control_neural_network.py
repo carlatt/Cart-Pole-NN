@@ -69,5 +69,5 @@ if __name__ == "__main__":
     v = tf.Variable(1., shape=tf.TensorShape(None))
     v.assign([[1.,2.,3.,6.]])
     neural.construct_model(v)
-    neural.set_loss_function(loss)
+    neural.set_loss_function()
     neural.train(100,v)

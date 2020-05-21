@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from load_dataset import load_data
+from neural_network.load_dataset import load_data
 
 
 class physical_nn(object):
@@ -10,14 +10,15 @@ class physical_nn(object):
         self.y_train = None
         self.x_test = None
         self.y_test = None
+        self.model = tf.keras.models.Sequential([
+            #tf.keras.layers.Flatten(input_shape=(1,)),
+            tf.keras.layers.Embedding(input_dim=1000, output_dim=201),
+            #tf.keras.layers.GRU(512, return_sequences=True),
+            tf.keras.layers.LSTM(256),
+            tf.keras.layers.Dense(40, activation='linear')
+        ])
         if model_restore_path is None:
-            self.model = tf.keras.models.Sequential([
-                tf.keras.layers.Flatten(input_shape=(5,)),
-                tf.keras.layers.Dense(50, activation='relu'),
-                tf.keras.layers.Dense(50, activation='sigmoid'),
-                tf.keras.layers.Dense(40, activation='selu'),
-                tf.keras.layers.Dense(4, activation='tanh')
-            ])
+            pass
         else:
             self.model = tf.keras.models.load_model(model_restore_path)
 
@@ -33,10 +34,12 @@ class physical_nn(object):
                       loss='MSE',
                       metrics=['accuracy'])
 
-    def fit(self, epochs=50, model_file_path=None):
-        self.model.fit(x_train, y_train, epochs=epochs)
-        if model_file_path is not None:
-            self.model.save(model_file_path)
+    def fit(self, epochs=50):
+        self.model.fit(self.x_train, self.y_train, epochs=epochs)
+
+
+    def save_model(self, model_file_path):
+        self.model.save(model_file_path)
 
     def evaluate(self):
         self.model.evaluate(x_test, y_test, verbose=2)
@@ -52,7 +55,7 @@ if __name__ == "__main__":
     model = physical_nn()
     model.load_data()
     model.compile()
-    model.fit(model_file_path="ciao")
+    model.fit(epochs=100)
     model.evaluate()
 
     img = np.array([x_test[0]])
