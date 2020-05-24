@@ -1,8 +1,8 @@
+import pathlib
+import random
 import numpy as np
 import tensorflow as tf
-
 from neural_network.load_dataset import load_data
-
 
 class physical_nn(object):
     def __init__(self, model_restore_path=None):
@@ -11,19 +11,21 @@ class physical_nn(object):
         self.x_test = None
         self.y_test = None
         self.model = tf.keras.models.Sequential([
-            #tf.keras.layers.Flatten(input_shape=(1,)),
-            tf.keras.layers.Embedding(input_dim=1000, output_dim=201),
-            #tf.keras.layers.GRU(512, return_sequences=True),
-            tf.keras.layers.LSTM(256),
-            tf.keras.layers.Dense(40, activation='linear')
+            tf.keras.layers.Flatten(input_shape=(5,)),
+            tf.keras.layers.Dense(5, activation='relu'),
+            tf.keras.layers.Embedding(input_dim=1024, output_dim=256),
+            tf.keras.layers.LSTM(512),
+            tf.keras.layers.Dense(40, activation='sigmoid'),
+            tf.keras.layers.Dense(8, activation='tanh'),
+            tf.keras.layers.Dense(4, activation='linear')
         ])
         if model_restore_path is None:
             pass
         else:
             self.model = tf.keras.models.load_model(model_restore_path)
 
-    def load_data(self):
-        (x_train, y_train), (x_test, y_test) = load_data()
+    def load_data(self,u_file, y_file):
+        (x_train, y_train), (x_test, y_test) = load_data(u_file, y_file)
         self.x_train = x_train
         self.y_train = y_train
         self.x_test = x_test
@@ -42,7 +44,7 @@ class physical_nn(object):
         self.model.save(model_file_path)
 
     def evaluate(self):
-        self.model.evaluate(x_test, y_test, verbose=2)
+        self.model.evaluate(self.x_test, self.y_test, verbose=2)
 
     def predict(self, input):
         return self.model.predict(input)
@@ -50,16 +52,36 @@ class physical_nn(object):
 
 if __name__ == "__main__":
 
-    (x_train, y_train), (x_test, y_test) = load_data()
+    #(x_train, y_train), (x_test, y_test) = load_data()
 
+    #model = physical_nn("neural_network/cart_pole_nn_saved")
     model = physical_nn()
-    model.load_data()
-    model.compile()
-    model.fit(epochs=100)
-    model.evaluate()
 
-    img = np.array([x_test[0]])
+    model.compile()
+
+    #get number of tests
+    count = 0
+    for path in pathlib.Path("./simulation_data").iterdir():
+        if path.is_file():
+            count += 1
+    n=int(count/2)
+
+    for i in range(1,n):
+
+        print("Train on test "+str(i))
+        model.load_data("./simulation_data/U"+str(i)+".csv",
+                        "./simulation_data/Y"+str(i)+".csv")
+        model.fit(epochs=20)
+        model.evaluate()
+        model.save_model("neural_network/cart_pole_nn_saved")
+        print()
+
+
+    i = random.randint(1, 10)
+    model.load_data("./simulation_data/U" + str(i) + ".csv",
+                    "./simulation_data/Y" + str(i) + ".csv")
+    img = np.array([model.x_test[0]])
     predictions = model.predict(img)
     predicted_class = predictions[0]
-    original_class = y_test[0]
+    original_class = model.y_test[0]
     print('Original: {} \nPredicted: {}'.format(original_class, predicted_class))

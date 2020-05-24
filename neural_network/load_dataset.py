@@ -2,28 +2,29 @@ from numpy import loadtxt
 import pandas as pd
 import numpy as np
 
-def import_data():
-    u = pd.read_csv("./simulation_data/U.csv")
-    y = pd.read_csv("./simulation_data/Y.csv")
+def import_data(u_file, y_file):
+    u = pd.read_csv(u_file)
+    y = pd.read_csv(y_file)
 
     u=u.values
     y=y.values
     y.transpose()
-    u=np.reshape(u,(10,-1)).transpose()
+    u=np.reshape(u,(1,-1)).transpose()
     y=y.transpose()
-    y=np.reshape(y,(40,-1)).transpose()
+    y=np.reshape(y,(4,-1)).transpose()
+    u=np.concatenate((u, y), axis=1)
+    u = np.delete(u,len(u)-1, axis=0)
+    y = np.delete(y,0,axis=0)
 
     return u, y
 
-def load_data():
-    u, y = import_data()
+def load_data(u_file, y_file):
+    u, y = import_data(u_file, y_file)
 
-    split = 3/4
-
-    x_train = u[:int(split*len(u))]
-    y_train = y[:int(split*len(y))]
-    x_test = u[int(split*len(u)):]
-    y_test = y[int(split*len(y)):]
+    x_train = u[:len(u)-1]
+    y_train = y[:len(y)-1]
+    x_test = u[len(u)-1:]
+    y_test = y[len(y)-1:]
 
     return (x_train, y_train), (x_test, y_test)
 
