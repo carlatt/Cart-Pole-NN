@@ -21,11 +21,15 @@ def import_data(u_file, y_file):
 def load_data(u_file, y_file):
     u, y = import_data(u_file, y_file)
 
-    x_train = u[:len(u)-1]
-    y_train = y[:len(y)-1]
-    x_test = u[len(u)-1:]
-    y_test = y[len(y)-1:]
-
+    x_train = u
+    y_train = y
+    x_test = u
+    y_test = y
+    # print("la mia x_train è questa: ")
+    # print(x_train)
+    # print("la mia y_train è questa: ")
+    # print(y_train)
+    # print("fine.")
     return (x_train, y_train), (x_test, y_test)
 
 if __name__ == "__main__":

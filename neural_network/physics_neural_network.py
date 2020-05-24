@@ -12,11 +12,11 @@ class physical_nn(object):
         self.y_test = None
         self.model = tf.keras.models.Sequential([
             tf.keras.layers.Flatten(input_shape=(5,)),
-            tf.keras.layers.Dense(5, activation='relu'),
-            tf.keras.layers.Embedding(input_dim=1024, output_dim=256),
-            tf.keras.layers.LSTM(512),
-            tf.keras.layers.Dense(40, activation='sigmoid'),
-            tf.keras.layers.Dense(8, activation='tanh'),
+            tf.keras.layers.Dense(300, activation='sigmoid'),
+             #tf.keras.layers.Embedding(input_dim=1024, output_dim=256),
+            #tf.keras.layers.LSTM(512),
+            tf.keras.layers.Dense(300, activation='sigmoid'),
+            tf.keras.layers.Dense(300, activation='sigmoid'),
             tf.keras.layers.Dense(4, activation='linear')
         ])
         if model_restore_path is None:
@@ -59,28 +59,32 @@ if __name__ == "__main__":
 
     model.compile()
 
-    #get number of tests
-    count = 0
-    for path in pathlib.Path("./simulation_data").iterdir():
-        if path.is_file():
-            count += 1
-    n=int(count/2)
+    # #get number of tests
+    # count = 0
+    # for path in pathlib.Path("./simulation_data").iterdir():
+    #     if path.is_file():
+    #         count += 1
+    # n=int(count/2)
 
-    for i in range(1,n):
+    for i in range(1,9):
 
-        print("Train on test "+str(i))
-        model.load_data("./simulation_data/U"+str(i)+".csv",
-                        "./simulation_data/Y"+str(i)+".csv")
-        model.fit(epochs=20)
-        model.evaluate()
-        model.save_model("neural_network/cart_pole_nn_saved")
+        print("Train on simulation "+str(i))
+        model.load_data("../simulation_data/U"+str(i)+".csv",
+                        "../simulation_data/Y"+str(i)+".csv")
+        model.fit(epochs=100)
+        #model.evaluate()
+        model.save_model("cart_pole_nn_saved")
         print()
 
 
-    i = random.randint(1, 10)
-    model.load_data("./simulation_data/U" + str(i) + ".csv",
-                    "./simulation_data/Y" + str(i) + ".csv")
+    i = 10
+    model.load_data("../simulation_data/U" + str(i) + ".csv",
+                    "../simulation_data/Y" + str(i) + ".csv")
+    print("la mia x_test è la seguente: ")
+    print(model.x_test[0])
     img = np.array([model.x_test[0]])
+    print("cerco di predictare l'evoluzione relativa a questo input: ")
+    print(img)
     predictions = model.predict(img)
     predicted_class = predictions[0]
     original_class = model.y_test[0]
