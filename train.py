@@ -16,8 +16,8 @@ if __name__ == "__main__":
         print("Train on test " + str(i))
         model.load_data("./simulation_data/U" + str(i) + ".csv",
                         "./simulation_data/Y" + str(i) + ".csv")
-        model.fit(epochs=20)
-        model.evaluate()
+        model.fit(epochs=200)
+        #model.evaluate()
         model.save_model("neural_network/cart_pole_nn_saved")
         print()
 

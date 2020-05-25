@@ -25,7 +25,8 @@ def plot_results(realcartpos,predcartpos,realcartvel,predcartvel,realtheta,predt
 
 
 if __name__ == "__main__":
-    model = physical_nn("neural_network/cart_pole_nn_saved")
+    model = physical_nn("./neural_network/cart_pole_nn_saved")
+    model.model.summary()
     
     i = 10
     model.load_data("./simulation_data/U" + str(i) + ".csv",
