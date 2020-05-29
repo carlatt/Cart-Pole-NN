@@ -1,6 +1,12 @@
 import numpy as np
 import pandas as pd
 
+def load_data_k_plus(u_file, y_file, i):
+    x ,y = load_data(u_file, y_file)
+    x = x[:len(x)-i]
+    y = y[i:]
+    return x, y
+
 def load_data(u_file, y_file):
     u = pd.read_csv(u_file)
     y = pd.read_csv(y_file)
@@ -19,10 +25,3 @@ def load_data(u_file, y_file):
     y = np.delete(y, 0, axis=0)
 
     return x, y
-
-if __name__ == "__main__":
-    import_data()
-    a = []
-    for i in range(0, 201):
-        a.append(i)
-    print(a)

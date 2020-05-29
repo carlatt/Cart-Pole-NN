@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from neural_network.load_dataset import load_data
+from neural_network.load_dataset import load_data, load_data_k_plus
 
 
 class physical_nn(object):
@@ -22,6 +22,11 @@ class physical_nn(object):
 
     def load_data(self, u_file, y_file):
         (x, y) = load_data(u_file, y_file)
+        self.x = x
+        self.y = y
+
+    def load_data_k_plus(self, u_file, y_file, i):
+        (x, y) = load_data_k_plus(u_file, y_file, i)
         self.x = x
         self.y = y
 
