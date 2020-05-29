@@ -37,6 +37,7 @@ if __name__ == "__main__":
             model.save_model(model_name)
 
     # here is where the prediction happens
+    i = 10
 
     model.load_data_k_plus("./simulation_data/U" + str(i) + ".csv",
                     "./simulation_data/Y" + str(i) + ".csv",I)
