@@ -38,6 +38,9 @@ if __name__ == "__main__":
 
     # here is where the prediction happens
 
+    model.load_data_k_plus("./simulation_data/U" + str(i) + ".csv",
+                    "./simulation_data/Y" + str(i) + ".csv",I)
+
     Y = model.y
     pred = model.predict()
 
