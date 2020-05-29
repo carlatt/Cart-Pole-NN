@@ -42,7 +42,7 @@ class physical_nn(object):
         self.model.save(model_file_path)
 
     def evaluate(self):
-        self.model.evaluate(self.x_test, self.y_test, verbose=2)
+        self.model.evaluate(self.x, self.y, verbose=2)
 
     def predict(self, input=None):
         if input is None:

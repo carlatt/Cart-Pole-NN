@@ -2,6 +2,7 @@ import os
 import pathlib
 
 from neural_network.physics_neural_network import physical_nn
+from plot import plot_results, plot_errors
 
 if __name__ == "__main__":
 
@@ -36,3 +37,30 @@ if __name__ == "__main__":
             model.save_model(model_name)
 
     # here is where the prediction happens
+
+    Y = model.y
+    pred = model.predict()
+
+    realcartpos = []
+    predcartpos = []
+    realcartvel = []
+    predcartvel = []
+    realtheta = []
+    predtheta = []
+    realomega = []
+    predomega = []
+    for n in range(len(model.x)):
+        realcartpos.append(Y[n][0])
+        predcartpos.append(pred[n][0])
+        realcartvel.append(Y[n][1])
+        predcartvel.append(pred[n][1])
+        realtheta.append(Y[n][2])
+        predtheta.append(pred[n][2])
+        realomega.append(Y[n][3])
+        predomega.append(pred[n][3])
+
+    plot_results(realcartpos, predcartpos, realcartvel, predcartvel, realtheta, predtheta, realomega, predomega)
+
+    error = Y - pred
+
+    plot_errors(error)
