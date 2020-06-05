@@ -1,9 +1,6 @@
-import numpy as np
+from neural_network.physics_neural_network import physical_nn
 from plot import plot_errors
 from plot import plot_results
-from neural_network.physics_neural_network import physical_nn
-
-
 
 if __name__ == "__main__":
     model = physical_nn("./neural_network/cart_pole_nn_saved")
@@ -44,8 +41,7 @@ if __name__ == "__main__":
         predomega.append(pred[n][3])
 
     plot_results(realcartpos, predcartpos, realcartvel, predcartvel, realtheta, predtheta, realomega, predomega)
-    
+
     error = Y - pred
-    
-    plot_errors(error)
-    
+
+    plot_errors(Y, pred)

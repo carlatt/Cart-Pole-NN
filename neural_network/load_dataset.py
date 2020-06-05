@@ -1,11 +1,13 @@
 import numpy as np
 import pandas as pd
 
+
 def load_data_k_plus(u_file, y_file, i):
-    x ,y = load_data(u_file, y_file)
-    x = x[:len(x)-i]
+    x, y = load_data(u_file, y_file)
+    x = x[:len(x) - i]
     y = y[i:]
     return x, y
+
 
 def load_data(u_file, y_file):
     u = pd.read_csv(u_file)

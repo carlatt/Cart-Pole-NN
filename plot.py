@@ -19,7 +19,8 @@ def plot_results(realcartpos, predcartpos, realcartvel, predcartvel, realtheta, 
     plt.show()
 
 
-def plot_errors(error):
+def plot_errors(Y, pred):
+    error = Y - pred
     error_pos = [item[0] for item in error]
     error_vel = [item[1] for item in error]
     error_theta = [item[2] for item in error]
@@ -33,4 +34,11 @@ def plot_errors(error):
 
     legend = ax.legend(loc='upper right')
 
+    plt.show()
+
+
+def plot_NRMSE(NRMSEs):
+    plt.scatter(range(1, 1 + len(NRMSEs)), NRMSEs, label="NRMSE for each model", color='r', s=100)
+    plt.legend(loc='upper left')
+    plt.xticks([1, 2, 3, 4, 5])
     plt.show()
