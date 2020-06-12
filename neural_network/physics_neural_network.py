@@ -7,16 +7,13 @@ class physical_nn(object):
     def __init__(self, model_restore_path=None):
         self.x = None
         self.y = None
-        self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(5,)),
-            tf.keras.layers.Dense(500, activation='sigmoid'),
-            tf.keras.layers.Dense(400, activation='sigmoid'),
-            # tf.keras.layers.Dense(128, activation='sigmoid'),
-            # tf.keras.layers.Dense(128, activation='sigmoid'),
-            tf.keras.layers.Dense(4)
-        ])
         if model_restore_path is None:
-            pass
+            self.model = tf.keras.models.Sequential([
+                tf.keras.layers.Flatten(input_shape=(5,)),
+                tf.keras.layers.Dense(500, activation='sigmoid'),
+                tf.keras.layers.Dense(400, activation='sigmoid'),
+                tf.keras.layers.Dense(4)
+            ])
         else:
             self.model = tf.keras.models.load_model(model_restore_path)
 

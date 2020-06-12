@@ -32,13 +32,14 @@ def plot_errors(Y, pred):
     ax.plot(error_theta, 'k', label='error_theta')
     ax.plot(error_omega, 'g', label='error_omega')
 
+
     legend = ax.legend(loc='upper right')
 
     plt.show()
 
 
 def plot_NRMSE(NRMSEs):
-    plt.scatter(range(1, 1 + len(NRMSEs)), NRMSEs, label="NRMSE for each model", color='r', s=100)
+    plt.bar(['k + 1','k + 2','k + 3','k + 4','k + 5'], NRMSEs, label="NRMSE for each model")
     plt.legend(loc='upper left')
-    plt.xticks([1, 2, 3, 4, 5])
+    #plt.xticks([1, 2, 3, 4, 5])
     plt.show()
